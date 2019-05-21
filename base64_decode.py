@@ -5,17 +5,22 @@ base_tbl = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 alphabet = OrderedDict(zip(base_tbl,range(64)))
 def base64decode(src:bytes):
     ret = bytearray()
-length = len(src)
-if length % 4 != 0:
-return step = 4 # 对齐的，每次取4个
-for offset in range(0, length, step):
-tmp = 0x00
-block = src[offset:offset + step]
-# 反查表，从字符到index
-for i in range(4):
-index = alphabet.get(block[-i-1])
-if index:
-# txt = "TWE="
+    length = len(src)
+    if length % 4 != 0:
+        return
+    step = 4 # 对齐的，每次取4个
+    for offset in range(0, length, step):
+        tmp = 0x00
+        block = src[offset:offset + step]
+        # 反查表，从字符到index
+        for i in range(4):
+            index = alphabet.get(block[-i-1])
+            if index:
+                tmp += index << i * 6
+        ret.extend(tmp.to_bytes(3, 'big'))
+    return bytes(ret.rstrip(b'\x00'))
+
+txt = "TWE="
 # txt = "TQ=="
 # txt = "TWFuTWE="
 # txt = "TWFuTQ=="

@@ -1,2 +1,1 @@
-# shell
-bash脚本
+# python算法

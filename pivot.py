@@ -26,4 +26,13 @@ def quick_sort(list):
         less = quick_sort(less)
         more = quick_sort(more)
         return less + pivotList + more
-        
+
+# 第二种方法
+def qsort(arr):
+    if len(arr) <= 1:
+        return arr
+    else:
+        pivot = arr[0]
+        return qsort([x for x in arr[1:] if x < pivot]) + \
+            [pivot] + \
+                qsort([x for x in arr[1:]if x >= pivot])
